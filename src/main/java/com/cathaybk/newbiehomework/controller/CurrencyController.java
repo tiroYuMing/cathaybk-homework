@@ -1,5 +1,7 @@
 package com.cathaybk.newbiehomework.controller;
 
+import com.cathaybk.newbiehomework.model.dto.CoinDeskFullDataDto;
+import com.cathaybk.newbiehomework.model.dto.CoinDeskSampleDataDto;
 import com.cathaybk.newbiehomework.model.dto.CurrencyDataDto;
 import com.cathaybk.newbiehomework.model.dto.CurrencyDto;
 import com.cathaybk.newbiehomework.service.CurrencyService;
@@ -52,6 +54,20 @@ public class CurrencyController {
     public ResponseEntity<Void> deleteCurrencyInfo(@PathVariable String currencyCode) {
         currencyService.deleteCurrency(currencyCode);
         return ResponseEntity.ok().build();
+    }
+
+    @Tag(name = "getFullCoinData")
+    @Operation(summary = "呼叫 coindesk API 取得完整資訊")
+    @GetMapping("getFullCoinData")
+    public ResponseEntity<CoinDeskFullDataDto> getFullCoinData() throws Exception {
+        return ResponseEntity.ok(currencyService.getFullCoinData());
+    }
+
+    @Tag(name = "getSampleCoinData")
+    @Operation(summary = "呼叫 coindesk API 取得基本資訊")
+    @GetMapping("getSampleCoinData")
+    public ResponseEntity<CoinDeskSampleDataDto> getSampleCoinData() throws Exception {
+        return ResponseEntity.ok(currencyService.getSampleCoinData());
     }
 
 }

@@ -3,8 +3,8 @@ package com.cathaybk.newbiehomework.service.impl;
 import com.cathaybk.newbiehomework.dao.CfgCurrencyInfoDao;
 import com.cathaybk.newbiehomework.dao.CurExchangeRateDao;
 import com.cathaybk.newbiehomework.dao.MapCurrencyDescDao;
-import com.cathaybk.newbiehomework.model.dto.CurrencyDataDto;
-import com.cathaybk.newbiehomework.model.dto.CurrencyDto;
+import com.cathaybk.newbiehomework.middleware.CoinDeskMware;
+import com.cathaybk.newbiehomework.model.dto.*;
 import com.cathaybk.newbiehomework.model.entity.CfgCurrencyInfo;
 import com.cathaybk.newbiehomework.model.entity.CurExchangeRate;
 import com.cathaybk.newbiehomework.model.entity.MapCurrencyDesc;
@@ -16,6 +16,10 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,6 +34,8 @@ public class CurrencyServiceImpl implements CurrencyService {
     private CurExchangeRateDao curExchangeRate;
     @Autowired
     private MapCurrencyDescDao mapCurrencyDescDao;
+    @Autowired
+    private CoinDeskMware coinDeskMware;
 
     @Override
     public List<CurrencyDataDto> getCurrencies() {
@@ -148,5 +154,37 @@ public class CurrencyServiceImpl implements CurrencyService {
         curExchangeRate.save(rate);
 
         return cfgCurrencyInfoDao.findDataByCode(currencyInfo.getCurrencyCode());
+    }
+
+    @Override
+    public CoinDeskFullDataDto getFullCoinData() throws Exception {
+        return coinDeskMware.callCoinDeskApi();
+    }
+
+    @Override
+    public CoinDeskSampleDataDto getSampleCoinData() throws Exception {
+        CoinDeskFullDataDto fullData = coinDeskMware.callCoinDeskApi();
+
+        TimeDataDto timeData = fullData.getTime();
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+        ZonedDateTime gmtZonedDateTime = ZonedDateTime.parse(timeData.getUpdatedISO(), formatter);
+        // 轉換為台北時區
+        ZonedDateTime taipeiZonedDateTime = gmtZonedDateTime.withZoneSameInstant(ZoneId.of("Asia/Taipei"));
+
+        CoinDeskSampleDataDto result = new CoinDeskSampleDataDto();
+        result.setUpdateAt(taipeiZonedDateTime.toLocalDateTime());
+
+        List<CurrencyDto> currencies = new ArrayList<>();
+        fullData.getBpi().getCurrencies().values().forEach(value -> {
+            CurrencyDto currency = new CurrencyDto();
+            currency.setCurrencyCode(value.getCode());
+            currency.setCurrencyName(value.getDescription());
+            currency.setExchangeRate(value.getRateFloat());
+
+            currencies.add(currency);
+        });
+        result.setCurrencies(currencies);
+
+        return result;
     }
 }
