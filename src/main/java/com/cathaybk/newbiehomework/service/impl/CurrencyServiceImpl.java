@@ -21,6 +21,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -176,15 +177,13 @@ public class CurrencyServiceImpl implements CurrencyService {
         CoinDeskSampleDataDto result = new CoinDeskSampleDataDto();
         result.setUpdateAt(taipeiDateTime);
 
-        List<CurrencyDto> currencies = new ArrayList<>();
-        fullData.getBpi().getCurrencies().values().forEach(value -> {
+        List<CurrencyDto> currencies = fullData.getBpi().getCurrencies().values().stream().map(value -> {
             CurrencyDto currency = new CurrencyDto();
             currency.setCurrencyCode(value.getCode());
             currency.setCurrencyName(value.getDescription());
             currency.setExchangeRate(value.getRateFloat());
-
-            currencies.add(currency);
-        });
+            return currency;
+        }).collect(Collectors.toList());
         result.setCurrencies(currencies);
 
         return result;
