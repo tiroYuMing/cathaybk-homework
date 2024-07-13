@@ -6,7 +6,7 @@ import java.util.List;
 public class CoinDeskSampleDataDto {
 
     private List<CurrencyDto> currencies;
-    private LocalDateTime updateAt;
+    private String updateAt;
 
     public List<CurrencyDto> getCurrencies() {
         return currencies;
@@ -16,11 +16,11 @@ public class CoinDeskSampleDataDto {
         this.currencies = currencies;
     }
 
-    public LocalDateTime getUpdateAt() {
+    public String getUpdateAt() {
         return updateAt;
     }
 
-    public void setUpdateAt(LocalDateTime updateAt) {
+    public void setUpdateAt(String updateAt) {
         this.updateAt = updateAt;
     }
 }

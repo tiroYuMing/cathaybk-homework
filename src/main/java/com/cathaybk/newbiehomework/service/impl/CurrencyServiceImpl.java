@@ -170,9 +170,11 @@ public class CurrencyServiceImpl implements CurrencyService {
         ZonedDateTime gmtZonedDateTime = ZonedDateTime.parse(timeData.getUpdatedISO(), formatter);
         // 轉換為台北時區
         ZonedDateTime taipeiZonedDateTime = gmtZonedDateTime.withZoneSameInstant(ZoneId.of("Asia/Taipei"));
+        DateTimeFormatter taipeiFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String taipeiDateTime = taipeiZonedDateTime.format(taipeiFormatter);
 
         CoinDeskSampleDataDto result = new CoinDeskSampleDataDto();
-        result.setUpdateAt(taipeiZonedDateTime.toLocalDateTime());
+        result.setUpdateAt(taipeiDateTime);
 
         List<CurrencyDto> currencies = new ArrayList<>();
         fullData.getBpi().getCurrencies().values().forEach(value -> {
