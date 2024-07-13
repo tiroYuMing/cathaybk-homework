@@ -1,6 +1,7 @@
 package com.cathaybk.newbiehomework.controller;
 
 import com.cathaybk.newbiehomework.model.dto.CurrencyDataDto;
+import com.cathaybk.newbiehomework.model.dto.CurrencyDto;
 import com.cathaybk.newbiehomework.service.CurrencyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,7 +21,7 @@ public class CurrencyController {
     @Tag(name = "addCurrencyInfo")
     @Operation(summary = "新增貨幣資訊")
     @PostMapping
-    public CurrencyDataDto addCurrencyInfo(CurrencyDataDto data) {
+    public CurrencyDataDto addCurrencyInfo(CurrencyDto data) {
         return currencyService.addCurrency(data);
     }
 
@@ -33,23 +34,23 @@ public class CurrencyController {
 
     @Tag(name = "getCurrencyInfo")
     @Operation(summary = "取得單一貨幣資訊")
-    @GetMapping("/{currencyName}")
-    public ResponseEntity<CurrencyDataDto> getCurrencyInfo(@PathVariable String currencyName) {
-        return ResponseEntity.ok(currencyService.getCurrencyByName(currencyName));
+    @GetMapping("/{currencyCode}")
+    public ResponseEntity<CurrencyDataDto> getCurrencyInfo(@PathVariable String currencyCode) {
+        return ResponseEntity.ok(currencyService.getCurrencyByCode(currencyCode));
     }
 
     @Tag(name = "updateCurrencyInfo")
     @Operation(summary = "更新貨幣資訊")
-    @PutMapping("/{currencyName}")
-    public ResponseEntity<CurrencyDataDto> updateCurrencyInfo(@PathVariable String currencyName, CurrencyDataDto data) {
-        return ResponseEntity.ok(currencyService.updateCurrency(currencyName, data));
+    @PutMapping("/{currencyCode}")
+    public ResponseEntity<CurrencyDataDto> updateCurrencyInfo(@PathVariable String currencyCode, CurrencyDto data) {
+        return ResponseEntity.ok(currencyService.updateCurrency(currencyCode, data));
     }
 
     @Tag(name = "deleteCurrencyInfo")
     @Operation(summary = "刪除貨幣資訊")
-    @DeleteMapping("/{currencyName}")
-    public ResponseEntity<Void> deleteCurrencyInfo(@PathVariable String currencyName) {
-        currencyService.deleteCurrency(currencyName);
+    @DeleteMapping("/{currencyCode}")
+    public ResponseEntity<Void> deleteCurrencyInfo(@PathVariable String currencyCode) {
+        currencyService.deleteCurrency(currencyCode);
         return ResponseEntity.ok().build();
     }
 

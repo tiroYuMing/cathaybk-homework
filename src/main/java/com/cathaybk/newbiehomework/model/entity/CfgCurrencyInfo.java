@@ -12,8 +12,8 @@ public class CfgCurrencyInfo {
     @Column(name = "NO")
     private Long no;
 
-    @Column(name = "CURRENCY")
-    private String currency;
+    @Column(name = "CURRENCY_CODE")
+    private String currencyCode;
 
     @Column(name = "CREATE_USER")
     private String createUser;
@@ -35,12 +35,12 @@ public class CfgCurrencyInfo {
         this.no = no;
     }
 
-    public String getCurrency() {
-        return currency;
+    public String getCurrencyCode() {
+        return currencyCode;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setCurrencyCode(String currencyCode) {
+        this.currencyCode = currencyCode;
     }
 
     public String getCreateUser() {

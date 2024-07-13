@@ -1,6 +1,7 @@
 package com.cathaybk.newbiehomework.service;
 
 import com.cathaybk.newbiehomework.model.dto.CurrencyDataDto;
+import com.cathaybk.newbiehomework.model.dto.CurrencyDto;
 
 import java.util.List;
 
@@ -8,11 +9,11 @@ public interface CurrencyService {
 
     List<CurrencyDataDto> getCurrencies();
 
-    CurrencyDataDto getCurrencyByName(String currencyName);
+    CurrencyDataDto getCurrencyByCode(String currencyCode);
 
-    void deleteCurrency(String currencyName);
+    void deleteCurrency(String currencyCode);
 
-    CurrencyDataDto updateCurrency(String currencyName, CurrencyDataDto data);
+    CurrencyDataDto updateCurrency(String currencyCode, CurrencyDto data);
 
-    CurrencyDataDto addCurrency(CurrencyDataDto data);
+    CurrencyDataDto addCurrency(CurrencyDto data);
 }
