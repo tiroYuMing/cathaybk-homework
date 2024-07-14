@@ -7,6 +7,9 @@ java 版本為 1.8、springboot 版本為 2.7.18
 
 執行 **src/main/java/com/cathaybk/newbiehomework/NewbieHomeworkApplication.java** 之 main 方法啟動
 
+## 資料庫
+可進入 H2 後台 **http://localhost:8080/h2/** 查看，
+
 ## 測試頁面
 
 專案啟動後，進入 **http://localhost:8080/swagger-ui/index.html** 使用 Swagger UI 進行 API 測試
