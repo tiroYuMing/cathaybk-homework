@@ -23,7 +23,7 @@ public class CurrencyController {
     @Tag(name = "addCurrencyInfo")
     @Operation(summary = "新增貨幣資訊")
     @PostMapping
-    public CurrencyDataDto addCurrencyInfo(CurrencyDto data) {
+    public CurrencyDataDto addCurrencyInfo(@RequestBody CurrencyDto data) {
         return currencyService.addCurrency(data);
     }
 
@@ -44,7 +44,7 @@ public class CurrencyController {
     @Tag(name = "updateCurrencyInfo")
     @Operation(summary = "更新貨幣資訊")
     @PutMapping("/{currencyCode}")
-    public ResponseEntity<CurrencyDataDto> updateCurrencyInfo(@PathVariable String currencyCode, CurrencyDto data) {
+    public ResponseEntity<CurrencyDataDto> updateCurrencyInfo(@PathVariable String currencyCode, @RequestBody CurrencyDto data) {
         return ResponseEntity.ok(currencyService.updateCurrency(currencyCode, data));
     }
 

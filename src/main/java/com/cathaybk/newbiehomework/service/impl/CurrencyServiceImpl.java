@@ -110,7 +110,7 @@ public class CurrencyServiceImpl implements CurrencyService {
         rate.setUpdateAt(now);
         curExchangeRate.save(rate);
 
-        return cfgCurrencyInfoDao.findDataByCode(CommonUtil.convertFullWidthToHalfWidth(currencyCode).toUpperCase());
+        return cfgCurrencyInfoDao.findDataByCode(CommonUtil.convertFullWidthToHalfWidth(data.getCurrencyCode()).toUpperCase());
     }
 
     @Override
