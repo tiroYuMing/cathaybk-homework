@@ -138,4 +138,6 @@ class NewbieHomeworkApplicationTests {
 					assertEquals("", result.getResponse().getContentAsString());
 				});
 	}
+
+	// 呼叫 coindesk 使用 swagger 測試
 }
